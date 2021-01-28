@@ -1,0 +1,8 @@
+site_name: "jwe-test-fork"
+site_description: "I like forks"
+
+nav:
+  - Introduction: index.md
+
+plugins:
+  - techdocs-core

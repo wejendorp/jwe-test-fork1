@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: "jwe-test-fork"
+  description: "I like forks"
+  annotations:
+    github.com/project-slug: wejendorp/jwe-test-fork1
+    backstage.io/techdocs-ref: url:https://github.com/wejendorp/jwe-test-fork1
+spec:
+  type: documentation
+  lifecycle: experimental
+  owner: "wejendorp"
