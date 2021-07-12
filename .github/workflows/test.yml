@@ -53,7 +53,7 @@ jobs:
           script: |
             const { issue: { number: issue_number }, repo: { owner, repo }, payload  } = context;
             const result = await github.pulls.get({ repo, owner, pull_number: issue_number });
-            const sha = result.head.sha;
+            const sha = result.data.head.sha;
             github.issues.updateComment({
               owner,
               repo,
