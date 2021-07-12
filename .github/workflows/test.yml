@@ -20,7 +20,7 @@ jobs:
               owner,
               repo,
               comment_id: payload.comment.id,
-              body: `:whale: building docker image... [View job](https://github.com/${owner}/${repo}/runs/${context.runNumber})`,
+              body: `:whale: building docker image... [View job](https://github.com/${owner}/${repo}/actions/runs/${context.runId})`,
             });
       # this is needed because the comment-events does not include the information about the commit sha
       # taken from https://github.com/actions/checkout/issues/331
@@ -59,7 +59,7 @@ jobs:
               owner,
               repo,
               comment_id: payload.comment.id,
-              body: `:whale: Pushed docker image eu.gcr.io/tradeshift-base/${repo}:${sha}\n\n[View job](https://github.com/${owner}/${repo}/runs/${context.runNumber})`,
+              body: `:whale: Pushed docker image eu.gcr.io/tradeshift-base/${repo}:${sha}\n\n[View job](https://github.com/${owner}/${repo}/actions/runs/${context.runId})`,
             });
 
       - name: ':-1: Mark as failed'
@@ -75,5 +75,5 @@ jobs:
               owner,
               repo,
               comment_id: payload.comment.id,
-              body: `:whale: Failed to build docker image\n\n[View job](https://github.com/${owner}/${repo}/runs/${context.runNumber})`,
+              body: `:whale: Failed to build docker image\n\n[View job](https://github.com/${owner}/${repo}/actions/runs/${context.runId})`,
             });
