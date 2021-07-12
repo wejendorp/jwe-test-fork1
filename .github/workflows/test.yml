@@ -20,7 +20,7 @@ jobs:
               owner,
               repo,
               comment_id: payload.comment.id,
-              body: ':whale: building docker image...',
+              body: `:whale: building docker image... [View job](https://github.com/${owner}/${repo}/runs/${context.runNumber})`,
             });
       # this is needed because the comment-events does not include the information about the commit sha
       # taken from https://github.com/actions/checkout/issues/331
@@ -47,6 +47,7 @@ jobs:
           ref: ${{ fromJSON(steps.get-pr.outputs.result).head.sha }}
 
       - name: ':+1: Mark as done'
+        if: ${{ success() }}
         uses: actions/github-script@v4
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -58,5 +59,21 @@ jobs:
               owner,
               repo,
               comment_id: payload.comment.id,
-              body: `:whale: Pushed docker image eu.gcr.io/tradeshift-base/${repo}:${sha}`,
+              body: `:whale: Pushed docker image eu.gcr.io/tradeshift-base/${repo}:${sha}\n\n[View job](https://github.com/${owner}/${repo}/runs/${context.runNumber})`,
+            });
+
+      - name: ':-1: Mark as failed'
+        if: ${{ failure() }}
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { issue: { number: issue_number }, repo: { owner, repo }, payload  } = context;
+            const result = await github.pulls.get({ repo, owner, pull_number: issue_number });
+            const sha = result.data.head.sha;
+            github.issues.updateComment({
+              owner,
+              repo,
+              comment_id: payload.comment.id,
+              body: `:whale: Failed to build docker image\n\n[View job](https://github.com/${owner}/${repo}/runs/${context.runNumber})`,
             });
